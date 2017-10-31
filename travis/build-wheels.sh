@@ -2,8 +2,6 @@
 set -e -x
 
 # Install a system package required by our library
-yum -y update
-yum install -y boost
 
 ls -al /opt/python/
 rm -rf /opt/python/cp26-*
