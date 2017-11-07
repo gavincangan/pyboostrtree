@@ -6,7 +6,6 @@ set -e -x
 ls -al /opt/python/
 rm -rf /opt/python/cp26-*
 rm -rf /opt/python/cp33-*
-rm -rf /opt/python/cp34-*
 ls -al /opt/python/
 
 # Compile wheels
