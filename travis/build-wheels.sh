@@ -22,5 +22,5 @@ done
 # Install packages and test
 for PYBIN in /opt/python/*/bin/; do
     "${PYBIN}/pip" install boostrtrees --no-index -f /io/wheelhouse
-    (cd "$HOME"; "${PYBIN}/pytest" boostrtrees)
+    (cd "$HOME"; "${PYBIN}py.test" boostrtrees)
 done
