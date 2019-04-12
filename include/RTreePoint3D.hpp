@@ -37,7 +37,7 @@ public:
      * @param x
      * @param y
      * @param z
-     * @return
+     * @return vector of values corresponding to 
      */
     double minDistance(double x, double y, double z);
 
@@ -60,10 +60,26 @@ public:
     void insertPoints(double* points, long m, long n);
 
     /**
+     * Inserts points from numpy 3D array
+     *
+     * @param points Numpy array containing rows (x, y, z, value)
+     * @param m Number of points to be inserted (rows)
+     * @param n Number of columns (must equal to 4)
+     */
+    void removePoints(double* points, long m, long n);
+
+    /**
      * Returns bounding box containing all points
      * @return A vector of size 4 containing [min_x, min_y, min_z, max_x, max_y, max_z]
      */
     std::vector<double> bounds();
+
+    /**
+     * Returns points inside a 3D cuboid specified by two 3D coordinates
+     *
+     * @param 2 points Numpy array containing 2 rows (x, y, z)
+     */
+    std::vector<long> intersection(double* coords);
 
     /**
      * Returns number of points in Rtree
@@ -77,6 +93,12 @@ private:
      * Instantiate a 3D Rtree
      */
     bgi::rtree< value3d, bgi::rstar<27, 9> > rtree;
+
+    /**
+     * Sort coordinates to get min and max corners
+     */
+    void _sortMinMaxCorners(double* points, long m, long n);
+
 };
 
 } // end namespace rtree

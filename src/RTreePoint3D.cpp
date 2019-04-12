@@ -22,7 +22,7 @@ void RTreePoint3D::insertPoints(double* points, long m, long n)
 
     for (long i = 0 ; i < m * n; i = i + 4){
         point3d p(points[i], points[i + 1], points[i + 2]);
-        this->rtree.insert(std::make_pair(p, points[i + 3]));
+        this->rtree.insert(std::make_pair(p, long(points[i + 3])));
     }
 }
 
@@ -81,4 +81,43 @@ std::vector<double> RTreePoint3D::bounds(){
     boundaries.push_back(bg::get<2>(max_corner));
 
     return boundaries;
+}
+
+std::vector<long> RTreePoint3D::intersection(double* coords){
+
+    _sortMinMaxCorners(coords, 2, 3);
+    point3d minp(coords[0], coords[1], coords[2]), maxp(coords[3], coords[4], coords[5]);
+    bbox3d query_box(minp, maxp);
+
+    std::vector<value3d> results;
+    rtree.query(bgi::intersects(query_box), std::back_inserter(results));
+    std::vector<long> values;
+    for (auto result : results){
+        values.insert(values.begin(), result.second);
+    }
+    return values;
+}
+
+void RTreePoint3D::removePoints(double* points, long m, long n){
+    assert(n == 4); // points should be an m x 3 matrix
+
+    for (long i = 0 ; i < m * n; i = i + n){
+        point3d p(points[i], points[i + 1], points[i + 2]);
+        this->rtree.remove(std::make_pair(p, long(points[i + n-1])));
+    }
+}
+
+void RTreePoint3D::_sortMinMaxCorners(double* points, long m, long n)
+{
+    assert(n == 3);
+    assert(m == 2);
+
+    double temp = 0.0;
+    for (long i = 0 ; i < n; i++){
+        if(points[i] > points[i+n]){
+            temp = points[i];
+            points[i] = points[i+n];
+            points[i+n] = temp;
+        }
+    }
 }
