@@ -48,29 +48,29 @@ public:
      * @param z
      * @param value
      */
-    void insertPoint(double x, double y, double z, long value);
+    void insertPoint(double x, double y, double z);
 
     /**
      * Inserts points from numpy 3D array
      *
-     * @param points Numpy array containing rows (x, y, z, value)
+     * @param points Numpy array containing rows (x, y, z)
      * @param m Number of points to be inserted (rows)
-     * @param n Number of columns (must equal to 4)
+     * @param n Number of columns (must equal to 3)
      */
     void insertPoints(double* points, long m, long n);
 
     /**
      * Inserts points from numpy 3D array
      *
-     * @param points Numpy array containing rows (x, y, z, value)
+     * @param points Numpy array containing rows (x, y, z)
      * @param m Number of points to be inserted (rows)
-     * @param n Number of columns (must equal to 4)
+     * @param n Number of columns (must equal to 3)
      */
     void removePoints(double* points, long m, long n);
 
     /**
      * Returns bounding box containing all points
-     * @return A vector of size 4 containing [min_x, min_y, min_z, max_x, max_y, max_z]
+     * @return A vector of size 6 containing [min_x, min_y, min_z, max_x, max_y, max_z]
      */
     std::vector<double> bounds();
 
@@ -87,13 +87,15 @@ public:
      */
     long size();
 
+    std::vector<std::vector<double>> _all_points();
+
 private:
 
     /**
      * Instantiate a 3D Rtree
      */
     bgi::rtree< value3d, bgi::rstar<27, 9> > rtree;
-
+    std::vector<std::vector<double>> points;
     /**
      * Sort coordinates to get min and max corners
      */

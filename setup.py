@@ -10,7 +10,7 @@ from os import path
 from setuptools import setup, find_packages
 from setuptools.extension import Extension
 from Cython.Distutils import build_ext
-
+from Cython.Build import cythonize
 
 here = path.abspath(path.dirname(__file__))
 
@@ -24,7 +24,7 @@ __version__ = re.search(
     ).group(1)
 
 
-compile_args = ['-Wall', '-g', '-std=c++11']
+compile_args = ['-Wall', '-g', '-std=c++11', '-ggdb']
 
 # Last argument is required, see https://stackoverflow.com/questions/47978722/missing-c-std-library-methods-and-other-errors-while-compiling-eos-on-ubuntu-1
 if sys.platform == 'darwin':
@@ -59,12 +59,12 @@ setup(
     setup_requires=['Cython >= 0.18'],
     install_requires=['numpy', 'cython'],
     cmdclass={'build_ext': build_ext},
-    ext_modules=[Extension("boostrtrees",
+    ext_modules=cythonize([Extension("boostrtrees",
                            sources=sources,
                            language="c++",
                            extra_compile_args=compile_args,
                            include_dirs=[numpy.get_include(), os.environ['BOOST_ROOT'], 'include', '/usr/include', '/usr/include/x86_64-linux-gnu']
-                           )],
+                           )], gdb_debug=True),
     keywords=['c++ boost geometry rtree'],
     zip_safe=False,
     classifiers=[
