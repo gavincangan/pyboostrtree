@@ -39,7 +39,6 @@ if 'BOOST_ROOT' not in os.environ:
     print('|  Ubuntu: apt-get install libboost-all-dev |')
     print('|  Manually: wget https://sourceforge.net/projects/boost/files/boost/1.65.1/boost_1_65_1.tar.gz|')
     print('=' * 40)
-    os.environ['BOOST_ROOT'] = '/usr/include'
 
 print('Using boost from BOOST_ROOT = {}'.format(os.environ['BOOST_ROOT']))
 
@@ -63,7 +62,7 @@ setup(
                            sources=sources,
                            language="c++",
                            extra_compile_args=compile_args,
-                           include_dirs=[numpy.get_include(), os.environ['BOOST_ROOT'], 'include', '/usr/include', '/usr/include/x86_64-linux-gnu']
+                           include_dirs=[numpy.get_include(), os.environ['BOOST_ROOT'], 'include']
                            )],
     keywords=['c++ boost geometry rtree'],
     zip_safe=False,

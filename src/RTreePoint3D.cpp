@@ -18,7 +18,7 @@ void RTreePoint3D::insertPoint(double x, double y, double z, long value)
 
 void RTreePoint3D::insertPoints(double* points, long m, long n)
 {
-    assert(n == 4); // points should be an m x 3 matrix
+    assert(n == 4); // points should be an m x 4 matrix
 
     for (long i = 0 ; i < m * n; i = i + 4){
         point3d p(points[i], points[i + 1], points[i + 2]);
